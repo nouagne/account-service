@@ -1,0 +1,12 @@
+﻿services:
+  templateproject.component.api:
+    image: templateproject.component.api
+    build:
+      context: .
+      dockerfile: TemplateProject.Component.API/Dockerfile
+
+  templateproject.api:
+    image: templateproject.api
+    build:
+      context: .
+      dockerfile: src/TemplateProject.API/Dockerfile
