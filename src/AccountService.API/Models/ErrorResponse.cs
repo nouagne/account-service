@@ -1,4 +1,4 @@
-﻿namespace TemplateProject.API.Models;
+﻿namespace AccountService.API.Models;
 
 public class ErrorResponse
 {

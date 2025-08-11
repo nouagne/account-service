@@ -1,4 +1,4 @@
-﻿namespace TemplateProject.Application.Common;
+﻿namespace AccountService.Application.Common;
 
 public interface IClock
 {

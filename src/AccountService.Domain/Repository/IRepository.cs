@@ -1,4 +1,4 @@
-﻿namespace TemplateProject.Domain.Repository;
+﻿namespace AccountService.Domain.Repository;
 
 public interface IRepository<T>
 {

@@ -1,3 +1,3 @@
-﻿namespace TemplateProject.Domain.Exceptions;
+﻿namespace AccountService.Domain.Exceptions;
 
 public class NotFoundException(string message) : Exception(message);

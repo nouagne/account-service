@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Text.Json;
-using TemplateProject.API.Models;
-using TemplateProject.Domain.Exceptions;
+using AccountService.API.Models;
+using AccountService.Domain.Exceptions;
 
-namespace TemplateProject.API.MiddleWares;
+namespace AccountService.API.MiddleWares;
 
 public class ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
 {
