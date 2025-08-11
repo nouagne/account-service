@@ -1,4 +1,4 @@
-﻿namespace AccountService.Application.EventBus;
+﻿namespace AccountService.Application.Contracts.Messaging;
 
 public interface IEventBusPublisher
 {
