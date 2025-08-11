@@ -1,4 +1,4 @@
-﻿namespace TemplateProject.API.MiddleWares;
+﻿namespace AccountService.API.MiddleWares;
 
 public class RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggingMiddleware> logger)
 {

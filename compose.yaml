@@ -1,12 +1,34 @@
 ﻿services:
-  templateproject.component.api:
-    image: templateproject.component.api
-    build:
-      context: .
-      dockerfile: TemplateProject.Component.API/Dockerfile
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-account_service}
+      POSTGRES_USER: ${POSTGRES_USER:-account_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-account_pass}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-account_user} -d ${POSTGRES_DB:-account_service}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
-  templateproject.api:
-    image: templateproject.api
+  api:
     build:
       context: .
-      dockerfile: src/TemplateProject.API/Dockerfile
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__Default: Host=postgres;Port=5432;Database=${POSTGRES_DB:-account_service};Username=${POSTGRES_USER:-account_user};Password=${POSTGRES_PASSWORD:-account_pass}
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "5111:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:

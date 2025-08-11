@@ -1,4 +1,4 @@
-﻿namespace TemplateProject.Application.EventBus;
+﻿namespace AccountService.Application.EventBus;
 
 public interface IEventBusPublisher
 {

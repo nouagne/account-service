@@ -1,4 +1,4 @@
-﻿namespace TemplateProject.Domain.Events;
+﻿namespace AccountService.Domain.Events;
 
 public interface IDomainEvent
 {
