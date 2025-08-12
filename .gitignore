@@ -5,3 +5,5 @@ riderModule.iml
 /_ReSharper.Caches/
 /TemplateProject.sln.DotSettings.user
 .idea/*
+*.zip
+/AccountService.sln.DotSettings.user
