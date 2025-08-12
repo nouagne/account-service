@@ -11,15 +11,25 @@ namespace AccountService.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddPostgres(configuration);
-        
         // Repos
         services.AddScoped<IAccountRepository, AccountRepository>();
         
         // Services techniques (si utilisés par le handler)
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddSingleton<IClock, SystemClock>();
+        
+        var provider = configuration["APP_DB_PROVIDER"]?.ToLowerInvariant();
+
+        return provider switch
+        {
+            "postgres" => services.AddPostgres(configuration), // EF Core + Npgsql
+            //"sqlite"   => services.AddSqlite(config),   // EF Core + SQLite
+            //"mongo"    => services.AddMongo(config),    // MongoDB.Driver
+            //"dynamo"   => services.AddDynamo(config),   // AWSSDK.DynamoDBv2
+            //"cosmos"   => services.AddCosmos(config),   // Microsoft.Azure.Cosmos ou EF Core Cosmos
+            _ => throw new InvalidOperationException("APP_DB_PROVIDER non configuré")
+        };
     }
 }

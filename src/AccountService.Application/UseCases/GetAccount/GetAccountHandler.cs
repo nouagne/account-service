@@ -1,11 +1,10 @@
 ﻿using AccountService.Application.Contracts.CQRS;
 using AccountService.Application.Contracts.Repositories;
 using AccountService.Application.Exceptions;
-using Microsoft.Extensions.Logging;
 
 namespace AccountService.Application.UseCases.GetAccount;
 
-public class GetAccountHandler(ILogger<GetAccountHandler> logger, IAccountRepository repo) : ICommandHandler<GetAccountCommand, GetAccountResult>
+public class GetAccountHandler(IAccountRepository repo) : ICommandHandler<GetAccountCommand, GetAccountResult>
 {
     public async Task<GetAccountResult> Handle(GetAccountCommand command, CancellationToken ct)
     {
