@@ -43,3 +43,5 @@ app.MapControllers();
 app.MapGet("/", () => Results.Redirect("/openapi"));
 
 app.Run();
+
+public partial class Program { }

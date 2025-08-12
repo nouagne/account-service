@@ -1,6 +1,9 @@
 ﻿using AccountService.API.Features.Accounts.Create;
+using AccountService.API.Features.Accounts.Get;
 using AccountService.Application.Contracts.CQRS;
+using AccountService.Application.Exceptions;
 using AccountService.Application.UseCases.CreateAccount;
+using AccountService.Application.UseCases.GetAccount;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountService.API.Features.Accounts;
@@ -43,8 +46,34 @@ public class AccountsController(ICommandDispatcher dispatcher, ILogger<AccountsC
         }
     }
     
-    // Stub pour CreatedAtAction (tu implémenteras plus tard la Query GetById)
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status501NotImplemented)]
-    public IActionResult GetById(Guid id) => StatusCode(StatusCodes.Status501NotImplemented);
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await dispatcher.Send(new GetAccountCommand { AccountId = id }, cancellationToken);
+            var response = new GetAccountResponse
+            {
+                AccountId = result.AccountId,
+                FirstName = result.FirstName,
+                LastName  = result.LastName,
+                Email     = result.Email,
+                Timezone  = result.Timezone,
+                CreatedAt = result.CreatedAt,
+                UpdatedAt = result.UpdatedAt
+            };
+            
+            return Ok(response);
+        }
+        catch (NotFoundException nf)
+        {
+            logger.LogInformation(nf, "Account not found for id {Id}", id);
+            return NotFound(new ProblemDetails
+            {
+                Title  = "Account not found",
+                Detail = nf.Message,
+                Status = StatusCodes.Status404NotFound
+            });
+        }
+    }
 }
